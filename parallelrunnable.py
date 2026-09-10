@@ -20,7 +20,7 @@ detailed_prompt = ChatPromptTemplate.from_template(
 )
 
 # Input
-topic = "Machine Learning"
+
 
 chain = RunnableParallel({
     "short" :RunnableLambda(lambda x :x['short']) |short_prompt | model | parser ,

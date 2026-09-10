@@ -4,7 +4,7 @@ load_dotenv()
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnableParallel,RunnableLambda
+from langchain_core.runnables import RunnableParallel,RunnablePassthrough 
 # Components
 model = ChatGroq(model="openai/gpt-oss-20b")
 parser = StrOutputParser()
@@ -21,3 +21,16 @@ explain_prompt = ChatPromptTemplate.from_messages([
 
 seq = code_prompt | model | parser 
 
+
+seq2 = RunnableParallel(
+    {"code" :  RunnablePassthrough(),
+     "explanation" : explain_prompt | model | parser
+    }
+)
+
+chain = seq | seq2
+
+result = chain.invoke({"topic" : "please write a code of palindrome in python "})
+
+print(result['code'])
+print(result['explanation'])

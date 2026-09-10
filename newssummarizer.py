@@ -10,5 +10,10 @@ prompt = ChatPromptTemplate.from_template(
     """
 Yor are a helpful ai assistent
 summarize the following news into clear bullet points
+{news}
 """
 )
+chain= prompt | model |StrOutputParser()
+news_result= search_tool.run("latest news of 2026")
+news=chain.invoke({"news": news_result})
+print(news)

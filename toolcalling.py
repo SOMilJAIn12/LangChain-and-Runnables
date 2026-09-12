@@ -4,7 +4,7 @@ load_dotenv()
 from langchain_groq import ChatGroq
 from langchain.tools import tool
 from rich import print
-
+from langchain_core.messages import HumanMessage
 model = ChatGroq(model="openai/gpt-oss-20b")
 
 
@@ -17,20 +17,12 @@ def get_text_length(text: str) -> int:
 # Tool binding
 llm_with_tool = model.bind_tools([get_text_length])
 
-result = llm_with_tool.invoke(
-    "Returns number of characters in given text: 'how are you'"
-)
+quary=HumanMessage("return the number of character in given text : 'How are you'")
+message=[]
+message.append(quary)
+result=llm_with_tool.invoke(message)
+message.append(result)
 
 if result.tool_calls:
-    tool_call = result.tool_calls[0]
-
-    tool_name = tool_call["name"]
-    tool_args = tool_call["args"]
-
-    tool_result = get_text_length.invoke(tool_args)
-
-    final_response = llm_with_tool.invoke(
-        f"The length of the text is {tool_result}"
-    )
-
-    print(final_response)
+    tool_name=result.tool_calls[0]["name"]
+    #tool_name.invoke()

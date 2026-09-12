@@ -13,7 +13,9 @@ def get_text_length(text: str) -> int:
     """Returns number of characters in given text."""
     return len(text)
 
-
+tool={
+    "get_text_length":get_text_length
+}
 # Tool binding
 llm_with_tool = model.bind_tools([get_text_length])
 
@@ -25,4 +27,7 @@ message.append(result)
 
 if result.tool_calls:
     tool_name=result.tool_calls[0]["name"]
-    #tool_name.invoke()
+    tool_message=tool[tool_name].invoke(result.tool_calls[0])
+    message.append(tool_message)
+result=llm_with_tool.invoke(message)
+print(result.content)

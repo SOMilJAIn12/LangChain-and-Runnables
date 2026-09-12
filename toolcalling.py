@@ -9,9 +9,7 @@ def get_text_length(text:str)->int:
     return len(text)
 #tool binding
 llm_with_tool=model.bind_tools([get_text_length])
-result=model.invoke("hello")
-result2=llm_with_tool.invoke("hello")
-print(result)
-print()
-print()
-print(result2)
+
+result2=llm_with_tool.invoke("Returns number of character in given text : 'how are you'")
+
+print(result2.tool_calls[0])

@@ -71,3 +71,12 @@ def human_approval(request, handler):
         )
 
     return handler(request)  
+
+agent = create_agent(
+    llm,
+    tools = [get_weather,get_news],
+    system_prompt= "you are a helpful city assistant.",
+    middleware= [human_approval]
+)
+
+print("City Agent | type exit to quit")

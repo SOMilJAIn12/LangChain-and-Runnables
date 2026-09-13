@@ -80,3 +80,13 @@ agent = create_agent(
 )
 
 print("City Agent | type exit to quit")
+
+while True:
+    user_input = input("You : ")
+    if user_input.lower() == "exit":
+        break 
+    result = agent.invoke({
+        "messages": [{"role": "user", "content": user_input}]
+    })
+
+    print("bot : ", result['messages'][-1].content )

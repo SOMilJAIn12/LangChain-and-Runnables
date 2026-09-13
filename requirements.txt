@@ -12,5 +12,5 @@ requests
 python-dotenv
 
 streamlit
-
+tavily
 pydantic
